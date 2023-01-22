@@ -10,3 +10,9 @@ export const petDecrement = () => {
     type: "PET_DECRESED",
   };
 };
+
+export const getUsers = () => {
+  return {
+    type: "GET_USERS_REQUESTED",
+  };
+};

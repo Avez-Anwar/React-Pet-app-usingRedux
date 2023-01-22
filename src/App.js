@@ -1,31 +1,25 @@
 import "./App.css";
 import { useSelector } from "react-redux";
-import { petIncrement, petDecrement } from "./actions";
+import { petIncrement, petDecrement, getUsers } from "./actions";
 import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 function App() {
-  const petCounter = useSelector((state) => state.petCounter);
-  const petFavorite = useSelector((state) => state.petFavorite);
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users.users);
+  const loading = useSelector((state) => state.users.loading);
+  const error = useSelector((state) => state.users.error);
 
-  const handlePetIncrement = () => {
-    dispatch(petIncrement(2));
-    console.log("2 sholud be passed as a payload");
-  };
-
-  const handlePetDecrement = () => {
-    dispatch(petDecrement());
-    console.log("The value get increment by actions and reducers");
-  };
+  useEffect(() => {
+    dispatch(getUsers());
+  }, []);
 
   return (
     <div className="App">
-      <h1>Pet Counter : {petCounter}</h1>
-      <h1>Pet Favorite : {petFavorite}</h1>
-      <button onClick={handlePetIncrement}>Add Pet</button>
-      <button onClick={handlePetDecrement}>Remove Pet</button>
-      {/* <button onClick={() => dispatch(petIncrement(2))}>Add Pet</button>
-      <button onClick={() => dispatch(petDecrement())}>Remove Pet</button> */}
+      <h1>Welcome to React-Redux-Saga</h1>
+      {loading && <h2>Loading...</h2>}
+      {error && !loading && <h2>{error}</h2>}
+      {users && users.map((user, i) => <h1 key={i}>{user.name}</h1>)}
     </div>
   );
 }
